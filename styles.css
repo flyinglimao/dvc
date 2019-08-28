@@ -1,13 +1,159 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+.font-sans {
+    font-family: '微軟正黑體', 'Microsoft JhengHei', '微軟雅黑體', 'Microsoft JhengHei', '思源黑體', 'Noto Sans TC', 'NotoSans', '黑體-繁', 'Heiti TC';
+}
 .hero {
     background: #6faaaa;
 }
-.hero img {
-    max-width: 100%;
+.hero-img {
+    background-image: url('assets/hero.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .info {
-    max-width: 650px;
+    max-width: 570px;
+    position: relative;
 }
-.info img {
-    vertical-align: middle;
+.info h2::before {
+    content: '';
+    z-index: -1;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 4px);
+    top: 4px;
+    background: #f9d3d4;
+}
+
+.input {
+    background: #4B4744;
+}
+.calc {
+    max-width: 860px;
+}
+.calc .col {
+    margin-right: 25px;
+}
+.calc .helper {
+    border: 2px solid #fff;
+}
+.calc .col:last-child {
+    margin-right: 0;
+}
+.calc .fields p {
+    border-bottom: 2px solid #fff;
+}
+.calc .fields img {
+    display: inline-block;
+    max-width: 75px;
+    height: auto;
+}
+.calc .fields input {
+    width: 72px;
+    border: none;
+    background: #64615e;
+    position: absolute;
+    right: 15px;
+}
+.calc .field {
+    height: 148px;
+}
+@media screen and (max-width: 570px) {
+    .hero {
+        padding: 4px 0;
+    }
+    .hero-img {
+        width: 100%;
+        height: 300px;
+    }
+    .about, .input {
+        padding-top: 2em;
+        padding-bottom: 2em;
+        text-align: center;
+    }
+    .info h2 {
+        position: relative;
+        display: inline-block;
+    }
+    .info img {
+        width: 90px;
+        height: 90px;
+        margin-top: 12px;
+        margin-bottom: 15px;
+    }
+    .info p {
+        text-align: left;
+        width: 337px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (min-width: 570px) {
+    .hero-img {
+        width: 85vw;
+        height: 38vw;
+    }
+    .about, .input {
+        padding-top: 5em;
+        padding-bottom: 5em;
+    }
+    .info h2 {
+        position: absolute;
+        right: 0;
+        margin-top: -4px;
+        font-size: 33px;
+        letter-spacing: 1px;
+    }
+    .info h2::before {
+        content: '';
+        z-index: -1;
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 4px);
+        top: 4px;
+        background: #f9d3d4;
+    }
+    .info p {
+        position: absolute;
+        right: 0;
+        width: 320px;
+        top: 54px;
+        font-size: 14px;
+        line-height: 1.43;
+    }
+    .input .helper {
+        padding: 72px 25px;
+        position: relative;
+    }
+    .input .helper::before {
+        top: 0;
+        content: '　';
+        display: block;
+        position: absolute;
+        width: calc(100% - 25px);
+        margin-top: 36px;
+        border-bottom: 1px solid #fff;
+    }
+    .input .helper::after {
+        content: '';
+        display: block;
+        margin-top: 18px;
+        width: 50%;
+        border-top: 3px solid #6FAAAA;
+    }
+    .calc .field:nth-child(1) {
+        margin-top: 36px;
+        margin-bottom: 24px;
+    }
 }
