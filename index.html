@@ -10,74 +10,127 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="app" class="container-fluid">
-        <div class="row hero">
-            <div class="hero-img mx-auto">
-            </div>
-        </div>
-        <div class="row about">
-            <div class="container info mx-auto ">
-                <h2>黃金比例以及維特魯威人</h2>
-                <img src="assets/golden.png" alt="黃金比例以及維特魯威人">
-                <p class="font-sans">黃金分割具有嚴格的比例性、藝術性、和諧性，蘊藏著豐富的美學價值，呈現於不少動物和植物的外觀。現今很多工業產品、電子產品、建築物或藝術品均普遍應用黃金分割，展現其功能性與美觀性。 <br><br>
-                達文西按照一位古羅馬建築師，維特魯威(Vitruvius)所留下關於比例的學說，繪製出一個具黃金比例的人體圖像－維特魯威人。
-                </p>
-            </div>
-        </div>
-        <div class="row input font-sans text-white">
-            <div class="container calc mx-auto">
-                <div class="row">
-                    <div class="col helper">
-                        <p>請在６處空格，填入丈量後的數據 (單位：公分)，我們將告訴你，你的身材符合黃金比例嗎？</p>
-                    </div>
-                    <div class="col fields">
-                        <div class="field">
-                            <p>身高</p>
-                            <div class="icon" style="background-image: url('assets/a.png')"></div>
-                            <input type="number">
-                        </div>
-                        <div class="field">
-                            <p>身高</p>
-                            <div class="icon" style="background-image: url('assets/b.png')"></div>
-                            <input type="number">
-                        </div>
-                    </div>
-                    <div class="col fields">
-                        <div class="field">
-                            <p>身高</p>
-                            <div class="icon" style="background-image: url('assets/c.png')"></div>
-                            <input type="number">
-                        </div>
-                        <div class="field">
-                            <p>身高</p>
-                            <div class="icon" style="background-image: url('assets/d.png')"></div>
-                            <input type="number">
-                        </div>
-                    </div>
-                    <div class="col fields">
-                        <div class="field">
-                            <p>身高</p>
-                            <div class="icon" style="background-image: url('assets/c.png')"></div>
-                            <input type="number">
-                        </div>
-                        <div class="field">
-                            <p>身高</p>
-                            <div class="icon" style="background-image: url('assets/c.png')"></div>
-                            <input type="number">
-                        </div>
-                    </div>
+    <div id="app" class="container-fluid p-0">
+        <section id="form" class="d-none">
+            <div class="row hero">
+                <div class="hero-img mx-auto">
                 </div>
-                <div class="row text-center">
-                    <div class="col">
-                        <button class="btn-submit">開始計算</button>
+            </div>
+            <div class="row about">
+                <div class="container info mx-auto font-sans">
+                    <h2>黃金比例以及維特魯威人</h2>
+                    <img src="assets/golden.png" alt="黃金比例以及維特魯威人">
+                    <p>黃金分割具有嚴格的比例性、藝術性、和諧性，蘊藏著豐富的美學價值，呈現於不少動物和植物的外觀。現今很多工業產品、電子產品、建築物或藝術品均普遍應用黃金分割，展現其功能性與美觀性。 <br><br>
+                    達文西按照一位古羅馬建築師，維特魯威(Vitruvius)所留下關於比例的學說，繪製出一個具黃金比例的人體圖像－維特魯威人。
+                    </p>
+                </div>
+            </div>
+            <div class="row desktop-form d-none d-sm-block">
+                <div class="form mx-auto font-sans">
+                    <h2>Step 1. 填寫資料參加抽獎</h2>
+                    <div class="input-group w-100">
+                        <span class="col p-0">是否為台科學生？</span>
+                        <div>
+                            <label for="ntust" class="mr-4"><input type="radio" id="ntust" v-model="isNtust" value="yes"><i></i>是</label>
+                            <label for="notntust"><input type="radio" id="notntust" v-model="isNtust" value="no"><i></i>否</label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span>姓名</span><input type="text" class="col" v-model="name">
+                    </div>
+                    <div class="input-group">
+                        <span>電話</span><input type="text" class="col" v-model="phone">
+                    </div>
+                    <div class="input-group">
+                        <span>電子郵件</span><input type="text" class="col" v-model="email">
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row footer"></div>
+            <div class="row input font-sans text-white">
+                <div class="container calc mx-auto">
+                    <div class="row">
+                        <div class="col helper">
+                            <h2>Step 2.</h2>
+                            <p>請在６處空格，填入丈量後的數據 (單位：公分)，我們將告訴你，你的身材符合黃金比例嗎？</p>
+                        </div>
+                        <div class="col fields">
+                            <div class="field">
+                                <p>身高</p>
+                                <div class="icon" style="background-image: url('assets/a.png')"></div>
+                                <input type="number" v-model="parameters.a">
+                            </div>
+                            <div class="field">
+                                <p>雙臂展開長</p>
+                                <div class="icon" style="background-image: url('assets/b.png')"></div>
+                                <input type="number" v-model="parameters.b">
+                            </div>
+                        </div>
+                        <div class="col fields">
+                            <div class="field">
+                                <p>額頭長度（髮線到眉毛）</p>
+                                <div class="icon" style="background-image: url('assets/c.png')"></div>
+                                <input type="number" v-model="parameters.c">
+                            </div>
+                            <div class="field">
+                                <p>臉部長度（髮線到下顎）</p>
+                                <div class="icon" style="background-image: url('assets/d.png')"></div>
+                                <input type="number" v-model="parameters.d">
+                            </div>
+                        </div>
+                        <div class="col fields">
+                            <div class="field">
+                                <p>頭部長度（髮線到下顎）</p>
+                                <div class="icon" style="background-image: url('assets/e.png')"></div>
+                                <input type="number" v-model="parameters.e">
+                            </div>
+                            <div class="field">
+                                <p>手掌長</p>
+                                <div class="icon" style="background-image: url('assets/f.png')"></div>
+                                <input type="number" v-model="parameters.f">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center d-none d-sm-block">
+                        <div class="col">
+                            <button class="btn-submit" @click="submit()">開始計算</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mobile-form form d-block d-sm-none font-sans">
+                <h2>填寫資料參加抽獎</h2>
+                <div class="input-group w-100">
+                    <span class="col p-0">是否為台科學生？</span>
+                    <div>
+                        <label for="ntust" class="mr-4"><input type="radio" id="ntust" v-model="isNtust" value="yes"><i></i>是</label>
+                        <label for="notntust"><input type="radio" id="notntust" v-model="isNtust" value="no"><i></i>否</label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span>姓名</span><input type="text" class="col" v-model="name">
+                </div>
+                <div class="input-group">
+                    <span>電話</span><input type="text" class="col" v-model="phone">
+                </div>
+                <div class="input-group">
+                    <span>電子郵件</span><input type="text" class="col" v-model="email">
+                </div>
+            </div>
+            <div class="row mobile-submit d-block d-sm-none text-center">
+                <div class="col">
+                    <button class="btn-submit font-sans m-4" @click="submit()">開始計算</button>
+                </div>
+            </div>
+        </section>
+        <section id="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </section>
+        <section id="result">
+
+        </section>
     </div>
     <!-- Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!-- Vue -->
@@ -88,7 +141,42 @@
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <script>
         const vm = new Vue({
-            el: '#app'
+            el: '#app',
+            data: {
+                'isNtust': 'yes',
+                'name': '',
+                'phone': '',
+                'email': '',
+                'parameters': {
+                    'a': undefined,
+                    'b': undefined,
+                    'c': undefined,
+                    'd': undefined,
+                    'e': undefined,
+                    'f': undefined,
+                }
+            },
+            methods: {
+                submit() {
+                    $('#form').fadeOut()
+                    $('#loading').fadeIn()
+                    let url = new URL('https://script.google.com/macros/s/AKfycbxrVYZSBw6zaJOh5qA89ki6GZe9BERE-0fDVmnB63ieJM80yIs/exec')
+                    let params = url.searchParams
+                    params.append('a', this.parameters.a)
+                    params.append('b', this.parameters.b)
+                    params.append('_c', this.parameters.c)
+                    params.append('d', this.parameters.d)
+                    params.append('e', this.parameters.e)
+                    params.append('f', this.parameters.f)
+                    params.append('name', this.name)
+                    params.append('phone', this.phone)
+                    params.append('email', this.email)
+                    params.append('isNtust', this.isNtust)
+                    this.$http.get(url.href).then(res => {
+                        $('#loading').fadeOut()
+                    })
+                }
+            }
         })
     </script>
 </body>
