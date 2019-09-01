@@ -1,6 +1,7 @@
 html, body, #app, #loading, #result {
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
 }
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
@@ -428,7 +429,7 @@ input[type=number] {
     }
     .text {
         background-color: #6ea9a9;
-        height: calc(100% - 147vw);
+        height: 210px;
         color: white;
         text-align: center;
     }
