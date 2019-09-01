@@ -7,11 +7,12 @@
     <title>Vue Page</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="app" class="container-fluid p-0">
-        <section id="form" class="d-none">
+        <section id="form">
             <div class="row hero">
                 <div class="hero-img mx-auto">
                 </div>
@@ -35,13 +36,20 @@
                             <label for="notntust"><input type="radio" id="notntust" v-model="isNtust" value="no"><i></i>否</label>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" v-if="isNtust === 'yes'">
                         <span>姓名</span><input type="text" class="col" v-model="name">
                     </div>
-                    <div class="input-group">
+                    <div class="input-group w-100" v-if="isNtust === 'yes'">
+                        <span class="col p-0">性別</span>
+                        <div>
+                            <label for="male" class="mr-4"><input type="radio" id="male" v-model="gender" value="male"><i></i>男</label>
+                            <label for="female"><input type="radio" id="female" v-model="gender" value="female"><i></i>女</label>
+                        </div>
+                    </div>
+                    <div class="input-group" v-if="isNtust === 'yes'">
                         <span>電話</span><input type="text" class="col" v-model="phone">
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" v-if="isNtust === 'yes'">
                         <span>電子郵件</span><input type="text" class="col" v-model="email">
                     </div>
                 </div>
@@ -79,7 +87,7 @@
                         </div>
                         <div class="col fields">
                             <div class="field">
-                                <p>頭部長度（髮線到下顎）</p>
+                                <p>頭部長度（頭頂到下顎）</p>
                                 <div class="icon" style="background-image: url('assets/e.png')"></div>
                                 <input type="number" v-model="parameters.e">
                             </div>
@@ -106,13 +114,20 @@
                         <label for="notntust"><input type="radio" id="notntust" v-model="isNtust" value="no"><i></i>否</label>
                     </div>
                 </div>
-                <div class="input-group">
+                <div class="input-group" v-if="isNtust === 'yes'">
                     <span>姓名</span><input type="text" class="col" v-model="name">
                 </div>
-                <div class="input-group">
+                <div class="input-group w-100" v-if="isNtust === 'yes'">
+                    <span class="col p-0">性別</span>
+                    <div>
+                        <label for="male" class="mr-4"><input type="radio" id="male" v-model="gender" value="male"><i></i>男</label>
+                        <label for="female"><input type="radio" id="female" v-model="gender" value="female"><i></i>女</label>
+                    </div>
+                </div>
+                <div class="input-group" v-if="isNtust === 'yes'">
                     <span>電話</span><input type="text" class="col" v-model="phone">
                 </div>
-                <div class="input-group">
+                <div class="input-group" v-if="isNtust === 'yes'">
                     <span>電子郵件</span><input type="text" class="col" v-model="email">
                 </div>
             </div>
@@ -126,7 +141,19 @@
             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </section>
         <section id="result">
-
+            <canvas id="result-screen"  class="d-none"></canvas>
+            <div class="score"></div>
+            <div class="text">
+                <div>
+                    <span>
+                        {{ text }}
+                    </span>
+                    <div class="result-btns">
+                        <button class="btn-share font-sans" @click="share()"><i class="fa fa-facebook-square"></i> 將結果分享到FB</button>
+                        <button class="btn-replay font-sans" @click="replay()">重新計算</button>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
     <!-- Bootstrap -->
@@ -147,6 +174,7 @@
                 'name': '',
                 'phone': '',
                 'email': '',
+                'gender': '',
                 'parameters': {
                     'a': undefined,
                     'b': undefined,
@@ -154,7 +182,9 @@
                     'd': undefined,
                     'e': undefined,
                     'f': undefined,
-                }
+                },
+                'score': 80,
+                'text': '',
             },
             methods: {
                 submit() {
@@ -170,14 +200,103 @@
                     params.append('f', this.parameters.f)
                     params.append('name', this.name)
                     params.append('phone', this.phone)
+                    params.append('gender', this.gender)
                     params.append('email', this.email)
                     params.append('isNtust', this.isNtust)
                     this.$http.get(url.href).then(res => {
+                        if (res.body.score) {
+                            this.score = res.body.score
+                            this.showResult()
+                            if (this.score > 95) {
+                                this.text = '你非常接近維特魯威人的身材了！達文西將會深深的著迷於你，該考慮去當模特兒了吧！'
+                            } else if (this.score > 85) {
+                                this.text = '你跟維特魯威人的身材還有一些差距，這樣的你顯得平易近人，更讓人親近！'
+                            } else {
+                                this.text = '你跟維特魯威人的身材差距很大，顯然你並不盲從過時的審美觀，獨樹一格的你開創了一條全新的路，相信未來世界的審美觀都將因你而改變！'
+                            }
+                            $('#loading').fadeOut()
+                            $('#result').fadeIn()
+                        } else {
+                            alert('輸入無效。')
+                            $('#loading').fadeOut()
+                            $('#form').fadeIn()
+                        }
+                    }).catch(err => {
+                        alert('網路錯誤。')
                         $('#loading').fadeOut()
+                        $('#form').fadeIn()
                     })
+                },
+                replay() {
+                    $('#result').fadeOut()
+                    $('#form').fadeIn()
+                },
+                share() {
+                    FB.ui({
+                        method: 'share',
+                        href: 'https://vinci.limaois.me/',
+                    })
+                },
+                showResult() {
+                    let tenscore = Math.floor(this.score / 10) 
+                    let onescore = this.score % 10
+                    let rsc = document.getElementById('result-screen')
+                    let rsx = rsc.getContext('2d')
+                    let bg = new Image()
+                    let mag, x, y
+                    if (window.innerHeight <= window.innerWidth) {
+                        rsc.width = 2400
+                        rsc.height  = 1062
+                        mag = 2
+                        x = 1680
+                        y = 770
+                        bg.src = 'assets/bg.png'
+                    } else {
+                        rsc.width = 575
+                        rsc.height  = 846
+                        mag = 1.35
+                        x = 340
+                        y = 320
+                        bg.src = 'assets/bg_v.png'
+                    }
+                    bg.onload = () => {
+                        rsx.drawImage(bg, 0, 0, rsc.width, rsc.height)
+
+                        let score = document.createElement('canvas')
+                        score.width = score.height = 0
+                        let scorex = score.getContext('2d')
+                        let tens = new Image()
+                        tens.src = `assets/${tenscore}.png`
+                        tens.onload = () => {
+                            score.width += tens.width * mag
+                            score.height = tens.height * mag
+                            let ones = new Image()
+                            ones.src =`assets/${onescore}.png`
+                            ones.onload = () => {
+                                score.width += ones.width * mag
+                                score.height = ones.height > tens.width ? ones.height * mag : tens.height * mag
+                                scorex.drawImage(tens, 0, 0, tens.width * mag, tens.height * mag)
+                                scorex.drawImage(ones, tens.width * mag - 12, 0, ones.width * mag, ones.height * mag)
+
+                                rsx.rotate(-8*Math.PI/180)
+                                rsx.drawImage(score, x, y)
+                                document.querySelector('.score').style.backgroundImage = `url('${rsc.toDataURL()}')`
+                            }
+                        }
+                    }  
                 }
             }
         })
+
+        window.fbAsyncInit = function() {
+            FB.init({
+            appId            : '2353296368263901',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v4.0'
+            })
+        }
     </script>
+    <script src="https://connect.facebook.net/zh_TW/sdk.js"></script>
 </body>
 </html>
