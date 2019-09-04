@@ -267,6 +267,9 @@ input[type=number] {
         padding: 30px 25px;
         position: relative;
     }
+    .help-text {
+        display: none;
+    }
     .helper h2 {
         font-size: 1.2em;
         font-weight: bold;
