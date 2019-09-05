@@ -82,13 +82,13 @@
                         <div class="col fields">
                             <div class="field">
                                 <p>額頭長度（髮線到眉毛）
-                                    <small class="text-muted help-text">用手指夾住一條繩子並讓手對齊髪線，另一隻手從夾住端往下拉直到眉毛上緣，在夾住的位置畫上記號後測量。</small></p>
+                                    <small class="text-muted help-text">用手指夾住一條繩子並讓手對齊髪線，另一隻手從夾住端往下拉直到眉毛上緣，繩子須伸直且垂直地面，在夾住的位置畫上記號後測量。</small></p>
                                 <div class="icon" style="background-image: url('assets/c.png')"></div>
                                 <input type="number" v-model="parameters.c" data-toggle="tooltip" data-placement="bottom" title="用手指夾住一條繩子並讓手對齊髪線，另一隻手從夾住端往下拉直到眉毛上緣，在夾住的位置畫上記號後測量。">
                             </div>
                             <div class="field">
                                 <p>臉部長度（髮線到下顎）
-                                    <small class="text-muted help-text">用手指夾住一條繩子並讓手對齊髪線，另一隻手從夾住端往下拉直到下顎底部，在夾住的位置畫上記號後測量。</small></p>
+                                    <small class="text-muted help-text">用手指夾住一條繩子並讓手對齊髪線，另一隻手從夾住端往下拉直到下顎底部，繩子須伸直且垂直地面，在夾住的位置畫上記號後測量。</small></p>
                                 <div class="icon" style="background-image: url('assets/d.png')"></div>
                                 <input type="number" v-model="parameters.d" data-toggle="tooltip" data-placement="bottom" title="用手指夾住一條繩子並讓手對齊髪線，另一隻手從夾住端往下拉直到下顎底部，在夾住的位置畫上記號後測量。">
                             </div>
@@ -96,9 +96,9 @@
                         <div class="col fields">
                             <div class="field">
                                 <p>頭部長度（頭頂到下顎）
-                                    <small class="text-muted help-text">用手指夾住一條繩子並讓手平行地面且頂住頭頂，另一隻手從夾住端往下拉直到下顎底部，繩子須伸直且垂直地面，在夾住的位置畫上記號後測量。</small></p>
+                                    <small class="text-muted help-text">背對牆壁站直，用手平行地面且頂住頭頂後在牆上做記號，接著手平行地面且頂住下顎後在牆上做記號，用卷尺測量兩個記號之間的長度。</small></p>
                                 <div class="icon" style="background-image: url('assets/e.png')"></div>
-                                <input type="number" v-model="parameters.e" data-toggle="tooltip" data-placement="bottom" title="用手指夾住一條繩子並讓手平行地面且頂住頭頂，另一隻手從夾住端往下拉直到下顎底部，繩子須伸直且垂直地面，在夾住的位置畫上記號後測量。">
+                                <input type="number" v-model="parameters.e" data-toggle="tooltip" data-placement="bottom" title="背對牆壁站直，用手平行地面且頂住頭頂後在牆上做記號，接著手平行地面且頂住下顎後在牆上做記號，用卷尺測量兩個記號之間的長度。">
                             </div>
                             <div class="field">
                                 <p>手掌長度
@@ -216,7 +216,10 @@
                     this.$http.get(url.href).then(res => {
                         if (res.body.score) {
                             this.score = res.body.score
-                            this.showResult()
+                            this.showResult(() => {
+                                $('#loading').fadeOut()
+                                $('#form').fadeIn()
+                            })
                             if (this.score > 95) {
                                 this.text = '你非常接近維特魯威人的身材了！達文西將會深深的著迷於你，該考慮去當模特兒了吧！'
                             } else if (this.score > 85) {
@@ -254,11 +257,10 @@
 
 活動名稱：科技前鋒─達文西逝世500周年紀念展
 展覽地點：台科大T4一樓穿堂
-展覽時間：2019/09/09(一)-2019/09/20(五)
-`
+展覽時間：2019/09/09(一)-2019/09/20(五)`
                     })
                 },
-                showResult() {
+                showResult(cb) {
                     let tenscore = Math.floor(this.score / 10) 
                     let onescore = this.score % 10
                     let rsc = document.getElementById('result-screen')
@@ -302,6 +304,7 @@
                                 rsx.rotate(-8*Math.PI/180)
                                 rsx.drawImage(score, x, y)
                                 document.querySelector('.score').style.backgroundImage = `url('${rsc.toDataURL()}')`
+                                cb()
                             }
                         }
                     }  
