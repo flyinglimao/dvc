@@ -96,9 +96,9 @@
                         <div class="col fields">
                             <div class="field">
                                 <p>頭部長度（頭頂到下顎）
-                                    <small class="text-muted help-text">背對牆壁站直，用手平行地面在牆上做記號，用卷尺測量高度。</small></p>
+                                    <small class="text-muted help-text">用手指夾住一條繩子並讓手平行地面且頂住頭頂，另一隻手從夾住端往下拉直到下顎底部，繩子須伸直且垂直地面，在夾住的位置畫上記號後測量。</small></p>
                                 <div class="icon" style="background-image: url('assets/e.png')"></div>
-                                <input type="number" v-model="parameters.e" data-toggle="tooltip" data-placement="bottom" title="用手指夾住一條繩子並讓手對齊髪線，另一隻手從夾住端往下拉直到下顎底部，在夾住的位置畫上記號後測量。">
+                                <input type="number" v-model="parameters.e" data-toggle="tooltip" data-placement="bottom" title="用手指夾住一條繩子並讓手平行地面且頂住頭頂，另一隻手從夾住端往下拉直到下顎底部，繩子須伸直且垂直地面，在夾住的位置畫上記號後測量。">
                             </div>
                             <div class="field">
                                 <p>手掌長度
@@ -245,6 +245,17 @@
                     FB.ui({
                         method: 'share',
                         href: 'https://vinci.limaois.me/' + this.score,
+                        quote: `【你的身材是黃金比例嗎？】
+黃金比例被認為是藝術中最理想的比例，符合此比例的建築、繪畫甚至是音樂將蘊含著豐富的美學價值、引起人們的美感。
+而達文西的作品《維特魯威人》便是按照黃金比例、結合人體所繪製的名畫，
+越接近維特魯威人的身材比例，便代表你越符合黃金比例的美學。
+
+快點擊下方連結測試看看自己的身材跟維特魯威人的相似度吧！
+
+活動名稱：科技前鋒─達文西逝世500周年紀念展
+展覽地點：台科大T4一樓穿堂
+展覽時間：2019/09/09(一)-2019/09/20(五)
+`
                     })
                 },
                 showResult() {
